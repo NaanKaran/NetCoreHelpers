@@ -18,60 +18,6 @@ namespace NetCoreHelpers
     public static class ExtensionHelper
     {
 
-        public static T ToEnum<T>(this string value)
-        {
-            var data = Enum.TryParse(typeof(T), value, true, out object result);
-            if (result == null)
-            {
-                return default(T);
-            }
-            return (T)result;
-        }
-
-        public static int ToInt(this string value)
-        {
-            int.TryParse(value, out var result);
-            return result;
-        }
-
-        public static long ToLong(this string value)
-        {
-            long.TryParse(value, out var result);
-            return result;
-        }
-        public static string ToJsonString(this object obj)
-        {
-            return obj != null ? JsonConvert.SerializeObject(obj) : string.Empty;
-        }
-
-      
-        public static T ConvertToModel<T>(this string obj)
-        {
-            try
-            {
-                return obj != null ? JsonConvert.DeserializeObject<T>(obj) : default(T);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                // ignored
-            }
-
-            return default(T);
-        }
-
-        //public static string ToFileExtension(this string obj)
-        //{
-        //    var mapping = Registry.ClassesRoot.GetSubKeyNames()
-        //              .Select(key => new
-        //              {
-        //                  Key = key,
-        //                  ContentType = Registry.ClassesRoot.OpenSubKey(key).GetValue("Content Type")
-        //              })
-        //               .Where(x => x.ContentType != null)
-        //               .ToLookup(x => x.ContentType, x => x.Key);
-        //    return mapping[obj].FirstOrDefault();
-        //}
 
 
         public static bool IsNullOrDefault(this int? obj)
@@ -104,21 +50,12 @@ namespace NetCoreHelpers
             return (default(int) != obj);
         }
 
-        public static bool IsNullOrWhiteSpace(this string obj)
-        {
-            return string.IsNullOrWhiteSpace(obj);
-        }
+     
         /// <summary>
-        /// indicate this string is not null, empty or whitespace
+        /// JArray to Dictionary
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
-        public static bool IsNotNullOrWhiteSpace(this string obj)
-        {
-            return !string.IsNullOrWhiteSpace(obj);
-        }
-
-
         public static Dictionary<string, string> ToDictionary(this JArray data)
         {
             if (data == null)
@@ -139,7 +76,11 @@ namespace NetCoreHelpers
             //return data.ToDictionary(k => ((JObject) k).Properties().First().Name,
             //    v => v.Values().First().Value<string>());
         }
-
+        /// <summary>
+        /// JObject to Dictionary
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static Dictionary<string, string> ToDictionary(this JObject data)
         {
             if (data == null)
@@ -156,21 +97,22 @@ namespace NetCoreHelpers
             return myDictionary;
         }
 
-        public static bool IsNullOrEmpty(this string obj)
-        {
-            return string.IsNullOrEmpty(obj);
-        }
 
-        public static bool IsNotNullOrEmpty(this string obj)
-        {
-            return !string.IsNullOrEmpty(obj);
-        }
-
+        /// <summary>
+        /// object null check
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static bool IsNull(this object obj)
         {
             return obj == null;
         }
 
+        /// <summary>
+        /// IsNotNull
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static bool IsNotNull(this object obj)
         {
             return obj != null;
@@ -205,24 +147,7 @@ namespace NetCoreHelpers
             return xDocument;
         }
 
-        /// <summary>
-        /// Converts the timestamp(1357290913) to UTC date time(1/4/2013 9:15:13 AM)
-        /// </summary>
-        /// <param name="timeStamp"></param>
-        /// <returns></returns>
-        public static DateTime ToDateTime(this string timeStamp)
-        {
-            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(Convert.ToInt64(timeStamp));
-            return dtDateTime;
-        }
-
-        public static string ToTimestamp(this DateTime value)
-        {
-            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
-            var elapsedTime = value - dateTime;
-            return ((long)elapsedTime.TotalSeconds).ToString();
-        }
+      
 
         public static bool IsValidGuid(this string val)
         {
@@ -402,58 +327,6 @@ namespace NetCoreHelpers
 
         }
 
-        public static DataTable ToDataTable<T>(this IList<T> data)
-        {
-            PropertyDescriptorCollection properties =
-                TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
-            {
-                var columnName = prop.DisplayName ?? prop.Name;
-                table.Columns.Add(columnName, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            }
-
-            foreach (T item in data)
-            {
-                DataRow row = table.NewRow();
-                foreach (PropertyDescriptor prop in properties)
-                {
-                    var columnName = prop.DisplayName ?? prop.Name;
-                    row[columnName] = prop.GetValue(item) ?? DBNull.Value;
-                }
-
-                table.Rows.Add(row);
-            }
-            return table;
-
-        }
-        public static DataTable ToDataTable<T>(this List<T> iList)
-        {
-            DataTable dataTable = new DataTable();
-            PropertyDescriptorCollection propertyDescriptorCollection =
-                TypeDescriptor.GetProperties(typeof(T));
-            for (int i = 0; i < propertyDescriptorCollection.Count; i++)
-            {
-                PropertyDescriptor propertyDescriptor = propertyDescriptorCollection[i];
-                Type type = propertyDescriptor.PropertyType;
-
-                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-                    type = Nullable.GetUnderlyingType(type);
-
-
-                dataTable.Columns.Add(propertyDescriptor.Name, type);
-            }
-            object[] values = new object[propertyDescriptorCollection.Count];
-            foreach (T iListItem in iList)
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    values[i] = propertyDescriptorCollection[i].GetValue(iListItem);
-                }
-                dataTable.Rows.Add(values);
-            }
-            return dataTable;
-        }
         public static byte[] ReadToEnd(this Stream stream)
         {
             long originalPosition = 0;

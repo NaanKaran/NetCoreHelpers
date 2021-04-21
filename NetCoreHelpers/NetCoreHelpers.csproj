@@ -2,10 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/NaanKaran/NetCoreHelpers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NaanKaran/NetCoreHelpers</RepositoryUrl>
+    <Authors>Karunakaran</Authors>
+    <Product>NetCoreHelper</Product>
+    <Company>NaanKaran</Company>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <NeutralLanguage />
+    <PackageIcon>karuna-icon.png</PackageIcon>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\karuna-icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="licenses\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

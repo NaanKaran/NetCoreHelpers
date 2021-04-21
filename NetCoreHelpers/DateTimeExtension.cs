@@ -7,12 +7,40 @@ namespace NetCoreHelpers
 {
    public static class DateTimeExtension
     {
+        /// <summary>
+        /// Converts the timestamp(1357290913) to UTC date time(1/4/2013 9:15:13 AM)
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this string timeStamp)
+        {
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(Convert.ToInt64(timeStamp));
+            return dtDateTime;
+        }
+
+        public static string ToTimestamp(this DateTime value)
+        {
+            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
+            var elapsedTime = value - dateTime;
+            return ((long)elapsedTime.TotalSeconds).ToString();
+        }
+
+        /// <summary>
+        /// Convert UTC time to Indian Time
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static DateTime ToIST(this DateTime date)
         {
             var istDate = TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
             return istDate;
         }
-
+        /// <summary>
+        /// UTC to China time
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static DateTime ToChinaTime(this DateTime obj)
         {
             return obj.AddHours(8);

@@ -8,7 +8,7 @@
     <Company>NaanKaran</Company>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <NeutralLanguage />
-    <PackageIcon>karuna-icon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <Version>2.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -17,11 +17,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Downloads\karuna-icon.png">
-      <Pack>True</Pack>
-      <PackagePath>
-      </PackagePath>
-    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -30,6 +25,12 @@
       <Pack>True</Pack>
       <PackagePath>
       </PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 </Project>

@@ -1,32 +1,36 @@
 # NetCoreHelpers
 
-**NetCoreHelpers** is a lightweight library offering a variety of helper methods and extensions to simplify common operations in .NET Core applications. These utilities aim to improve code readability and reduce boilerplate.
+**NetCoreHelpers** is a lightweight utility library that provides common helper methods and extensions to simplify and enhance operations in .NET Core applications. This package is designed to improve code readability, reduce boilerplate, and offer easy-to-use methods for common tasks.
 
 ## Features
 
-- **Null/Default Checks**: Easily determine if values are null or set to their default.
-- **Dictionary Conversions**: Convert `JArray` or `JObject` to `Dictionary<string, string>`.
-- **XML and XDocument Utilities**: Seamlessly convert between `XmlDocument` and `XDocument`.
-- **GUID Validation**: Validate if a string is a valid GUID.
-- **Stream Extensions**: Read streams to the end or convert objects to byte arrays.
-- **DataTable Utilities**: Create `DataTable` from collections or convert it to CSV.
+- **Null/Default Checks**: Simplify null and default value checks.
+- **Dictionary Conversions**: Convert `JArray` or `JObject` to a `Dictionary<string, string>`.
+- **GUID Validation**: Easily validate if a string is a valid GUID.
+- **Stream Extensions**: Extensions to read streams to the end or convert objects to byte arrays.
+- **DataTable Utilities**: Utilities to create `DataTable` from collections and convert to CSV format.
 - **Excel Column Naming**: Generate Excel-style column names programmatically.
+- **String Extensions**: A set of extensions for string manipulation and validation.
 
 ## Installation
 
-To install the package, run the following command in the NuGet Package Manager Console:
+To install NetCoreHelpers, run the following command in the NuGet Package Manager Console:
 
 ```sh
 Install-Package NetCoreHelpers
 ```
 
+Alternatively, you can install it via the .NET CLI:
 
+```sh
+dotnet add package NetCoreHelpers
+```
 
 ## Usage
 
-Below are some examples of how to use the provided extension methods.
-
 ### Null/Default Checks
+
+Check if a value is null or its default value.
 
 ```csharp
 int? nullableInt = null;
@@ -35,20 +39,16 @@ bool isNullOrDefault = nullableInt.IsNullOrDefault(); // true
 
 ### Dictionary Conversions
 
+Convert `JObject` or `JArray` to `Dictionary<string, string>`.
+
 ```csharp
 JObject jsonObject = JObject.Parse(@"{ 'Key1': 'Value1', 'Key2': 'Value2' }");
 Dictionary<string, string> dictionary = jsonObject.ToDictionary();
 ```
 
-### XML and XDocument Utilities
-
-```csharp
-XmlDocument xmlDocument = new XmlDocument();
-xmlDocument.LoadXml("<root><element>value</element></root>");
-XDocument xDocument = xmlDocument.ToXDocument();
-```
-
 ### GUID Validation
+
+Check if a string is a valid GUID.
 
 ```csharp
 string guidString = "d3b07384-d9a0-4c9b-8f8b-7f2b8b8b8b8b";
@@ -56,6 +56,8 @@ bool isValidGuid = guidString.IsValidGuid(); // true
 ```
 
 ### Stream Extensions
+
+Convert a stream to a byte array.
 
 ```csharp
 using (var stream = new MemoryStream())
@@ -66,6 +68,8 @@ using (var stream = new MemoryStream())
 
 ### DataTable Utilities
 
+Convert a list to a `DataTable` and export it to CSV.
+
 ```csharp
 List<MyClass> myList = new List<MyClass>();
 DataTable dataTable = myList.ToDataTable();
@@ -74,18 +78,17 @@ string csv = dataTable.ToCsv();
 
 ### Excel Column Naming
 
+Generate an Excel-style column name from an integer index.
+
 ```csharp
 string columnName = ExcelHelper.GetColumnName(1); // "A"
 ```
 
-```markdown
 ### String Extensions
-
-The `StringExtension` class provides several useful extension methods for strings.
 
 #### IsNullOrWhiteSpace
 
-Checks if a string is null, empty, or consists only of white-space characters.
+Check if a string is null, empty, or consists only of white-space characters.
 
 ```csharp
 string str = " ";
@@ -94,7 +97,7 @@ bool result = str.IsNullOrWhiteSpace(); // true
 
 #### IsNotNullOrWhiteSpace
 
-Checks if a string is not null, empty, or consists only of white-space characters.
+Check if a string is not null, empty, or consists only of white-space characters.
 
 ```csharp
 string str = "Hello";
@@ -103,7 +106,7 @@ bool result = str.IsNotNullOrWhiteSpace(); // true
 
 #### IsNullOrEmpty
 
-Checks if a string is null or empty.
+Check if a string is null or empty.
 
 ```csharp
 string str = "";
@@ -112,16 +115,16 @@ bool result = str.IsNullOrEmpty(); // true
 
 #### IsNotNullOrEmpty
 
-Checks if a string is not null or empty.
+Check if a string is not null or empty.
 
 ```csharp
 string str = "Hello";
 bool result = str.IsNotNullOrEmpty(); // true
 ```
 
-#### ToEnum
+#### ToEnum<T>
 
-Converts a string to an enum of type `T`.
+Convert a string to an enum of type `T`.
 
 ```csharp
 string str = "Ascending";
@@ -130,7 +133,7 @@ SortOrder order = str.ToEnum<SortOrder>(); // SortOrder.Ascending
 
 #### ToInt
 
-Converts a string to an integer.
+Convert a string to an integer.
 
 ```csharp
 string str = "123";
@@ -139,7 +142,7 @@ int number = str.ToInt(); // 123
 
 #### ToLong
 
-Converts a string to a long integer.
+Convert a string to a long integer.
 
 ```csharp
 string str = "123456789";
@@ -148,7 +151,7 @@ long number = str.ToLong(); // 123456789
 
 #### ToJsonString
 
-Converts an object to a JSON string.
+Convert an object to a JSON string.
 
 ```csharp
 var obj = new { Name = "John", Age = 30 };
@@ -157,9 +160,10 @@ string jsonString = obj.ToJsonString(); // {"Name":"John","Age":30}
 
 #### ConvertToModel
 
-Converts a JSON string to a model of type `T`.
+Convert a JSON string to a model of type `T`.
 
 ```csharp
 string jsonString = "{\"Name\":\"John\",\"Age\":30}";
 var person = jsonString.ConvertToModel<Person>(); // Person object with Name="John" and Age=30
+```
 ```

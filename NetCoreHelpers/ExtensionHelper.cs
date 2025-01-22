@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -156,16 +154,16 @@ namespace NetCoreHelpers
             return cc != new Guid() && isValid;
         }
 
-        public static byte[] ToByteArray(this Object obj)
+        public static byte[] ToByteArray(this object obj)
         {
             if (obj == null)
                 return null;
 
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, obj);
-            ms.Position = 0;
-            return ms.ToArray();
+            // Serialize the object to a JSON string
+            string jsonString = JsonConvert.SerializeObject(obj);
+
+            // Convert the JSON string to a byte array
+            return Encoding.UTF8.GetBytes(jsonString);
         }
 
         public static DataTable CreateDataTable<T>(this IEnumerable<T> list)
